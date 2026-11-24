@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPL 2026 Ticket Booking</title>
     <link rel="stylesheet" href="styles.css">
-    
-    
 </head>
 
 <body>
@@ -18,12 +16,12 @@
     <header>
         <h1>IPL 2026 Ticket Booking</h1>
 
-      <nav>
-    <a href="#matches">Matches</a>
-    <a href="booking.html">Book Ticket</a>
-    <a href="#mybookings">My Bookings</a>
-    <a href="#guidelines">Guidelines</a>
-</nav>
+        <nav>
+            <a href="#matches">Matches</a>
+            <a href="#booking">Book Ticket</a>
+            <a href="#mybookings">My Bookings</a>
+            <a href="#guidelines">Guidelines</a>
+        </nav>
     </header>
 
     <main>
@@ -40,7 +38,7 @@
                 View Schedule
             </button>
 
-            <button onclick="location.href='booking.html'">
+            <button onclick="location.href='#booking'">
                 Book Ticket
             </button>
 
@@ -88,7 +86,7 @@
 
             <label for="teamFilter">Filter by Team:</label>
 
-            <select id="teamFilter" onchange="filterMatches()">
+            <select id="teamFilter">
                 <option value="all">All Teams</option>
                 <option value="Chennai Super Kings">Chennai Super Kings</option>
                 <option value="Mumbai Indians">Mumbai Indians</option>
@@ -183,7 +181,7 @@
 
                         <label for="match">Select Match:</label><br>
 
-                        <select id="match" required onchange="updateSummary()">
+                        <select id="match" required>
                             <option value="">Choose Match</option>
                             <option value="CSK vs MI">CSK vs MI</option>
                             <option value="RCB vs KKR">RCB vs KKR</option>
@@ -194,7 +192,7 @@
 
                         <label for="stand">Stand Category:</label><br>
 
-                        <select id="stand" required onchange="updateSummary()">
+                        <select id="stand" required>
                             <option value="">Choose Stand</option>
                             <option value="General">General</option>
                             <option value="Premium">Premium</option>
@@ -205,31 +203,48 @@
 
                         <label for="quantity">Number of Tickets:</label><br>
 
-                        <input type="number" id="quantity"
-                            min="1" max="10" value="1"
-                            required oninput="updateSummary()">
+                        <input
+                            type="number"
+                            id="quantity"
+                            min="1"
+                            max="10"
+                            value="1"
+                            required
+                        >
 
                         <br>
 
                         <label for="name">Name:</label><br>
 
-                        <input type="text" id="name"
-                            placeholder="Enter your name" required>
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your name"
+                            required
+                        >
 
                         <br>
 
                         <label for="email">Email:</label><br>
 
-                        <input type="email" id="email"
-                            placeholder="Enter your email" required>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                        >
 
                         <br>
 
                         <label for="phone">Phone Number:</label><br>
 
-                        <input type="tel" id="phone"
+                        <input
+                            type="tel"
+                            id="phone"
                             placeholder="Enter phone number"
-                            pattern="[0-9]{10}" required>
+                            pattern="[0-9]{10}"
+                            required
+                        >
 
                         <br><br>
 
@@ -246,17 +261,30 @@
 
                     <h3>Booking Summary</h3>
 
-                    <p>Selected Match: <span id="summaryMatch">Not Selected</span></p>
+                    <p>
+                        Selected Match:
+                        <span id="summaryMatch">Not Selected</span>
+                    </p>
 
-                    <p>Stand: <span id="summaryStand">Not Selected</span></p>
+                    <p>
+                        Stand:
+                        <span id="summaryStand">Not Selected</span>
+                    </p>
 
-                    <p>Ticket Price: ₹<span id="summaryPrice">0</span></p>
+                    <p>
+                        Ticket Price: ₹<span id="summaryPrice">0</span>
+                    </p>
 
-                    <p>Quantity: <span id="summaryQuantity">1</span></p>
+                    <p>
+                        Quantity:
+                        <span id="summaryQuantity">1</span>
+                    </p>
 
                     <hr>
 
-                    <h3>Total Amount: ₹<span id="totalAmount">0</span></h3>
+                    <h3>
+                        Total Amount: ₹<span id="totalAmount">0</span>
+                    </h3>
 
                 </div>
 
@@ -346,126 +374,15 @@
     </footer>
 
 
-    <!-- JAVASCRIPT -->
+    <!-- TOAST NOTIFICATION -->
 
-    <script>
-
-        // Ticket prices for each match
-
-        const prices = {
-            "CSK vs MI": {
-                General: 800,
-                Premium: 1500,
-                VIP: 3000
-            },
-
-            "RCB vs KKR": {
-                General: 1000,
-                Premium: 2000,
-                VIP: 4000
-            },
-
-            "MI vs KKR": {
-                General: 800,
-                Premium: 1800,
-                VIP: 3500
-            }
-        };
+    <div id="toast" class="toast"></div>
 
 
-        // Select match from schedule table
+    <!-- EXTERNAL JAVASCRIPT -->
 
-        function selectMatch(match) {
+    <script src="app.js"></script>
 
-            document.getElementById("match").value = match;
-
-    updateSummary();
-
-    document.getElementById("booking").scrollIntoView({
-        behavior: "smooth"
-        });
-         showToast(match + " selected! Proceed with booking.");
-}
-
-
-        // Update booking summary
-
-        function updateSummary() {
-
-            let match = document.getElementById("match").value;
-
-            let stand = document.getElementById("stand").value;
-
-            let quantity = Number(document.getElementById("quantity").value) || 0;
-
-            let price = 0;
-
-            if (match && stand) {
-                price = prices[match][stand];
-            }
-
-            let total = price * quantity;
-
-            document.getElementById("summaryMatch").innerText =
-                match || "Not Selected";
-
-            document.getElementById("summaryStand").innerText =
-                stand || "Not Selected";
-
-            document.getElementById("summaryPrice").innerText = price;
-
-            document.getElementById("summaryQuantity").innerText = quantity;
-
-            document.getElementById("totalAmount").innerText = total;
-
-        }
-
-
-        // Filter matches by team
-
-        function filterMatches() {
-
-            let filter = document.getElementById("teamFilter").value;
-
-            let rows = document.querySelectorAll("#matchTable tr");
-
-            rows.forEach(function(row) {
-
-                let teams = row.cells[1].innerText;
-
-                if (filter === "all" || teams.includes(filter)) {
-
-                    row.style.display = "";
-
-                } else {
-
-                    row.style.display = "none";
-
-                }
-
-            });
-
-        }
-
-
-        // Form submission
-
-        document.getElementById("ticketForm").addEventListener("submit", function(event) {
-
-            event.preventDefault();
-
-            alert("Booking details submitted successfully!");
-
-        });
-
-    </script>
-<div id="toast" class="toast"></div>
-<script src="app.js"></script>
-<script>
-    // Your existing JavaScript functions
-    // selectMatch()
-    // updateSummary()
-    // filterMatches()
-</script>
 </body>
+
 </html>

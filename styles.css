@@ -464,3 +464,20 @@ header nav ul li a {
         bottom: 20px;
     }
 }
+
+/* ACTIVITY 7 - LIVE BOOKING SUMMARY */
+
+.summary p {
+    margin: 12px 0;
+    font-size: 16px;
+}
+
+.summary span {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+#totalAmount {
+    color: #0b7a35;
+    font-size: 22px;
+}
